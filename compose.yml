@@ -1,0 +1,18 @@
+services:
+  proxy:
+    image: nginx:1.23.3-alpine
+    container_name: athl-proxy
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./db-athl.conf:/etc/nginx/conf.d/db-athl.conf
+      - ./api-athl.conf:/etc/nginx/conf.d/api-athl.conf
+     # - ./web-athl.conf:/etc/nginx/conf.d/web-athl.conf
+    networks:
+      - applications-network
+
+networks:
+  applications-network:
+    external: true
+    name: applications-network
