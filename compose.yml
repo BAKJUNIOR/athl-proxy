@@ -9,6 +9,7 @@ services:
       - ./db-athl.conf:/etc/nginx/conf.d/db-athl.conf
       - ./api-athl.conf:/etc/nginx/conf.d/api-athl.conf
       - ./web-athl.conf:/etc/nginx/conf.d/web-athl.conf
+      - ./bo-athl.conf:/etc/nginx/conf.d/bo-athl.conf
     networks:
       - applications-network
 
