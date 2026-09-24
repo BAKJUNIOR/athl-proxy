@@ -1,4 +1,4 @@
-name: deploy athl back
+name: deploy athl proxy
 on: [push]
 env:
   IMAGE: athl-proxy
@@ -24,7 +24,7 @@ jobs:
     needs: [ 'create-folder']
     steps:
       - name: cloner le repertoire
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
       - name: copy file via ssh key
         uses: appleboy/scp-action@v0.1.7
         with:
