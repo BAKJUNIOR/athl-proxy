@@ -5,13 +5,33 @@ services:
     restart: always
     ports:
       - 80:80
+      - 443:443
     volumes:
       - ./db-athl.conf:/etc/nginx/conf.d/db-athl.conf
       - ./api-athl.conf:/etc/nginx/conf.d/api-athl.conf
       - ./web-athl.conf:/etc/nginx/conf.d/web-athl.conf
       - ./bo-athl.conf:/etc/nginx/conf.d/bo-athl.conf
+      - certbot-etc:/etc/letsencrypt
+      - webroot:/var/www/certbot
     networks:
       - applications-network
+
+  # Vérifie deux fois par jour si un certificat approche de l'expiration (90 jours de validité)
+  # et le renouvelle automatiquement — aucune intervention manuelle nécessaire après la mise en place.
+  certbot:
+    image: certbot/certbot
+    container_name: athl-certbot
+    restart: always
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - webroot:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done;'"
+    networks:
+      - applications-network
+
+volumes:
+  certbot-etc:
+  webroot:
 
 networks:
   applications-network:
