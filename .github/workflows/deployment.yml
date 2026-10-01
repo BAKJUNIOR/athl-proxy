@@ -42,4 +42,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           script: |
-            docker compose -f /opt/application/athl/${{env.IMAGE}}/compose.yml up -d
+            docker compose -f /opt/application/athl/${{env.IMAGE}}/compose.yml up -d --force-recreate
+            # --force-recreate nécessaire : les .conf nginx sont montés en volume, pas dans
+            # l'image, donc "up -d" seul ne redémarre pas le conteneur quand seul le fichier
+            # de conf change sur le serveur — nginx garderait l'ancienne config en mémoire.
