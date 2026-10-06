@@ -1,5 +1,8 @@
 name: deploy athl proxy
-on: [push]
+on:
+  push:
+    branches:
+      - master   # ne se déclenche QUE quand on push sur master
 env:
   IMAGE: athl-proxy
   VERSION: 0.0.1-SNAPSHOT
